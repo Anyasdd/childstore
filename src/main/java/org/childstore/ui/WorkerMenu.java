@@ -21,6 +21,8 @@ public class WorkerMenu {
             System.out.println("1. Показать список товаров");
             System.out.println("2. Добавить новый товар");
             System.out.println("3. Оформить заказ");
+            System.out.println("4. Поиск товара по названию");
+            System.out.println("5. Поиск по категории");
             System.out.println("0. Выход");
 
 
@@ -37,7 +39,12 @@ public class WorkerMenu {
                 case "3":
                     placeOrder();
                     break;
-
+                case "4":
+                    searchByName();
+                    break;
+                case "5":
+                    searchByCategory();
+                    break;
                 case "0":
                     running = false;
                     System.out.println("Выход в главное меню...");
@@ -99,6 +106,38 @@ public class WorkerMenu {
 
         System.out.println("\nНажмите Enter для возврата...");
         scanner.nextLine();
+    }
+
+    private void searchByName() {
+        System.out.print("Введите название товара: ");
+        String name = scanner.nextLine();
+
+        List<Product> results = productService.searchByName(name);
+        if (result.isEmpty()) {
+            System.out.println("Ничего не найдено");
+        } else {
+            System.out.println("Найдено: ");
+            for (Product p : result) {
+                System.out.println("🔹 " + p.getName() + " | " + p.getCategory());
+            }
+        }
+        pause();
+    }
+
+    private void searchByCategory() {
+        System.out.print("Введите категорию: ");
+        String category = scanner.nextLine();
+
+        List<Product> results = productService.searchByCategory(category);
+        if (results.isEmpty()) {
+            System.out.println("Ничего не найдено");
+        } else {
+            System.out.println("Найдено: ");
+            for (Product p : results) {
+                System.out.println("🔹 " + p.getName() + " | " + p.getCategory());
+            }
+        }
+        pause();
     }
 
 }

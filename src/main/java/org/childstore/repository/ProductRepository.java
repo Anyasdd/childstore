@@ -54,4 +54,61 @@ public class ProductRepository {
 
         return products;
     }
+
+    public List<Product> findByName(String name) {
+        List<Product> results = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE LOWER(name) LIKE LOWER(?)";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + name + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("serial_number"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getString("category")
+                );
+                results.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка поиска по имени: " + e.getMessage());
+        }
+
+        return results;
+    }
+
+    public List<Product> findByCategory(String category) {
+        List<Product> results = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE LOWER(category) LIKE LOWER(?)";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + category + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("serial_number"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getString("category")
+                );
+                results.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка поиска по категории: " + e.getMessage());
+        }
+
+        return results;
+    }
+
 }
