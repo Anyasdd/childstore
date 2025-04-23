@@ -113,11 +113,11 @@ public class WorkerMenu {
         String name = scanner.nextLine();
 
         List<Product> results = productService.searchByName(name);
-        if (result.isEmpty()) {
+        if (results.isEmpty()) {
             System.out.println("Ничего не найдено");
         } else {
             System.out.println("Найдено: ");
-            for (Product p : result) {
+            for (Product p : results) {
                 System.out.println("🔹 " + p.getName() + " | " + p.getCategory());
             }
         }
@@ -138,6 +138,11 @@ public class WorkerMenu {
             }
         }
         pause();
+    }
+
+    private void pause() {
+        System.out.println("\nНажмите Enter для возврата...");
+        scanner.nextLine();
     }
 
 }
