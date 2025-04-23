@@ -1,5 +1,7 @@
 package org.childstore.model;
 
+import org.childstore.ui.DirectorMenu;
+
 public class Director extends User {
     public Director(String username) {
         super(username);
@@ -7,9 +9,6 @@ public class Director extends User {
 
     @Override
     public void showMenu() {
-        @Override
-        public void showMenu() {
-            new org.childstore.ui.DirectorMenu().show();
-        }
+        new DirectorMenu().show();
     }
 }

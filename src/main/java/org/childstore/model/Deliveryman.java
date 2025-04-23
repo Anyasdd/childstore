@@ -7,6 +7,6 @@ public class Deliveryman extends User {
 
     @Override
     public void showMenu() {
-        System.out.println("Меню Доставщика (заглушка)");
+        new org.childstore.ui.DeliverymanMenu().show();
     }
 }

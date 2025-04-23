@@ -2,6 +2,10 @@ package org.childstore.service;
 
 import org.childstore.model.Product;
 import org.childstore.repository.ProductRepository;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 import java.util.List;
 
