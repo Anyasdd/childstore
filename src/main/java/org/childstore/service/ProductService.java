@@ -1,4 +1,4 @@
-ppackage org.childstore.service;
+package org.childstore.service;
 
 import org.childstore.model.Product;
 import org.childstore.repository.ProductRepository;
@@ -16,3 +16,4 @@ public class ProductService {
         return repository.findAll();
     }
 }
+
