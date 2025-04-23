@@ -7,6 +7,9 @@ public class Director extends User {
 
     @Override
     public void showMenu() {
-        System.out.println("Меню Директора (заглушка)");
+        @Override
+        public void showMenu() {
+            new org.childstore.ui.DirectorMenu().show();
+        }
     }
 }
