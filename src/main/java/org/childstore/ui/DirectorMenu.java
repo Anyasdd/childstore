@@ -4,7 +4,9 @@ import org.childstore.model.Product;
 import org.childstore.service.ProductService;
 import java.util.Map;
 import java.util.HashMap;
-
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +23,7 @@ public class DirectorMenu {
             System.out.println("3. Удалить товар по ID");
             System.out.println("4. Сортировать товары по цене");
             System.out.println("5. Показать отчёт по категориям");
+            System.out.println("6. Экспорт товаров в CSV");
             System.out.println("0. Выход");
 
             System.out.print("Ваш выбор: ");
@@ -41,6 +44,9 @@ public class DirectorMenu {
                     break;
                 case "5":
                     showCategoryReport();
+                    break;
+                case "6":
+                    exportToCSV();
                     break;
                 case "0":
                     System.out.println("Возврат в главное меню...");
@@ -127,6 +133,36 @@ public class DirectorMenu {
         System.out.println("\nОтчёт по категориям:");
         for (Map.Entry<String, Integer> entry : categoryCount.entrySet()) {
             System.out.println("🏷️ " + entry.getKey() + " → " + entry.getValue() + " товар(ов)");
+        }
+
+        pause();
+    }
+
+    private void exportToCSV() {
+        List<Product> products = productService.getAllProducts();
+        if (products.isEmpty()) {
+            System.out.println("Нет товаров для экспорта.");
+            pause();
+            return;
+        }
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("products.csv"))) {
+            writer.println("ID,Name,SerialNumber,Price,Quantity,Category");
+
+            for (Product p : products) {
+                writer.printf("%d,%s,%s,%.2f,%d,%s%n",
+                        p.getId(),
+                        p.getName(),
+                        p.getSerialNumber(),
+                        p.getPrice(),
+                        p.getQuantity(),
+                        p.getCategory()
+                );
+            }
+
+            System.out.println("Файл products.csv успешно создан.");
+        } catch (IOException e) {
+            System.out.println("Ошибка при создании CSV: " + e.getMessage());
         }
 
         pause();
