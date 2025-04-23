@@ -2,6 +2,10 @@ package org.childstore.ui;
 
 import org.childstore.model.Product;
 import org.childstore.service.ProductService;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +20,9 @@ public class WorkerMenu {
             System.out.println("\nМеню Работника:");
             System.out.println("1. Показать список товаров");
             System.out.println("2. Добавить новый товар");
+            System.out.println("3. Оформить заказ");
             System.out.println("0. Выход");
+
 
             System.out.print("Ваш выбор: ");
             String input = scanner.nextLine();
@@ -28,6 +34,10 @@ public class WorkerMenu {
                 case "2":
                     addProduct();
                     break;
+                case "3":
+                    placeOrder();
+                    break;
+
                 case "0":
                     running = false;
                     System.out.println("Выход в главное меню...");
@@ -75,4 +85,20 @@ public class WorkerMenu {
         Product p = new Product(name, serial, price, quantity, category);
         productService.addProduct(p);
     }
+
+    private void placeOrder() {
+        System.out.print("Введите название товара для заказа: ");
+        String name = scanner.nextLine();
+
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream("orders.txt", true))) {
+            writer.println(name);
+            System.out.println("Товар \"" + name + "\" добавлен в список заказов.");
+        } catch (IOException e) {
+            System.out.println("Ошибка при записи заказа: " + e.getMessage());
+        }
+
+        System.out.println("\nНажмите Enter для возврата...");
+        scanner.nextLine();
+    }
+
 }
