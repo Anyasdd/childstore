@@ -44,5 +44,24 @@ public class ProductService {
         return repository.findByCategory(category);
     }
 
+    public void updateProduct(Product product) {
+        String sql = "UPDATE product SET name = ?, serial_number = ?, price = ?, quantity = ?, category = ? WHERE id = ?";
+        try (Connection conn = org.childstore.db.DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, product.getName());
+            stmt.setString(2, product.getSerialNumber());
+            stmt.setDouble(3, product.getPrice());
+            stmt.setInt(4, product.getQuantity());
+            stmt.setString(5, product.getCategory());
+            stmt.setInt(6, product.getId());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Ошибка при обновлении товара: " + e.getMessage());
+        }
+    }
+
+
 }
 

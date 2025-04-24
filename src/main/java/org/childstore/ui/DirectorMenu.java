@@ -24,6 +24,7 @@ public class DirectorMenu {
             System.out.println("4. Сортировать товары по цене");
             System.out.println("5. Показать отчёт по категориям");
             System.out.println("6. Экспорт товаров в CSV");
+            System.out.println("7. Редактировать товар по ID");
             System.out.println("0. Выход");
 
             System.out.print("Ваш выбор: ");
@@ -47,6 +48,9 @@ public class DirectorMenu {
                     break;
                 case "6":
                     exportToCSV();
+                    break;
+                case "7":
+                    editProduct();
                     break;
                 case "0":
                     System.out.println("Возврат в главное меню...");
@@ -167,5 +171,49 @@ public class DirectorMenu {
 
         pause();
     }
+
+    private void editProduct() {
+        System.out.print("Введите ID товара для редактирования: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        List<Product> all = productService.getAllProducts();
+        Product target = all.stream()
+                .filter(p -> p.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (target == null) {
+            System.out.println("Товар с таким ID не найден.");
+            pause();
+            return;
+        }
+
+        System.out.println("Оставьте поле пустым, если не хотите менять.");
+
+        System.out.print("Новое название [" + target.getName() + "]: ");
+        String name = scanner.nextLine();
+        if (!name.isBlank()) target.setName(name);
+
+        System.out.print("Новый серийный номер [" + target.getSerialNumber() + "]: ");
+        String serial = scanner.nextLine();
+        if (!serial.isBlank()) target.setSerialNumber(serial);
+
+        System.out.print("Новая цена [" + target.getPrice() + "]: ");
+        String priceStr = scanner.nextLine();
+        if (!priceStr.isBlank()) target.setPrice(Double.parseDouble(priceStr));
+
+        System.out.print("Новое количество [" + target.getQuantity() + "]: ");
+        String qtyStr = scanner.nextLine();
+        if (!qtyStr.isBlank()) target.setQuantity(Integer.parseInt(qtyStr));
+
+        System.out.print("Новая категория [" + target.getCategory() + "]: ");
+        String category = scanner.nextLine();
+        if (!category.isBlank()) target.setCategory(category);
+
+        productService.updateProduct(target);
+        System.out.println("Товар обновлён.");
+        pause();
+    }
+
 
 }
