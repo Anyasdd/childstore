@@ -26,6 +26,8 @@ public class WorkerMenu {
             System.out.println("6. Поиск по серийному номеру");
             System.out.println("7. Показать список заказанных товаров");
             System.out.println("8. Показать отсутствующие товары");
+            System.out.println("9. Показать товары со скидкой");
+            System.out.println("10. Удалить заказ по названию");
             System.out.println("0. Выход");
 
 
@@ -56,6 +58,12 @@ public class WorkerMenu {
                     break;
                 case "8":
                     showOutOfStock();
+                    break;
+                case "9":
+                    showDiscountedProducts();
+                    break;
+                case "10":
+                    deleteOrder();
                     break;
                 case "0":
                     running = false;
@@ -218,4 +226,66 @@ public class WorkerMenu {
         pause();
     }
 
+    private void showDiscountedProducts() {
+        List<Product> products = productService.getAllProducts();
+
+        List<Product> discounted = products.stream()
+                .filter(p -> p.getCategory() != null &&
+                        p.getCategory().toLowerCase().contains("sale"))
+                .collect(Collectors.toList());
+
+        if (discounted.isEmpty()) {
+            System.out.println("Нет товаров со скидкой.");
+        } else {
+            System.out.println("\nТовары со скидкой:");
+            for (Product p : discounted) {
+                System.out.println("🔻 " + p.getName() + " | 💰 " + p.getPrice() +
+                        " | Категория: " + p.getCategory());
+            }
+        }
+
+        pause();
+    }
+
+    private void deleteOrder() {
+        File ordersFile = new File("orders.txt");
+        File tempFile = new File("orders_temp.txt");
+
+        if (!ordersFile.exists()) {
+            System.out.println("Список заказов пуст.");
+            pause();
+            return;
+        }
+
+        System.out.print("Введите точное название товара для удаления: ");
+        String target = scanner.nextLine();
+        boolean found = false;
+
+        try (
+                Scanner fileScanner = new Scanner(ordersFile);
+                PrintWriter writer = new PrintWriter(tempFile)
+        ) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                if (line.trim().equalsIgnoreCase(target.trim())) {
+                    found = true;
+                    continue;
+                }
+                writer.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при удалении заказа: " + e.getMessage());
+            return;
+        }
+
+        if (!ordersFile.delete() || !tempFile.renameTo(ordersFile)) {
+            System.out.println("Не удалось обновить файл заказов.");
+        } else if (found) {
+            System.out.println("Заказ \"" + target + "\" удалён.");
+        } else {
+            System.out.println("Заказ не найден.");
+        }
+
+        pause();
+    }
 }
