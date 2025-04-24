@@ -62,6 +62,10 @@ public class ProductService {
         }
     }
 
+    public Product searchBySerial(String serial) {
+        return repository.findBySerial(serial);
+    }
+
 
 }
 

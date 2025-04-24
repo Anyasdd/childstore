@@ -111,4 +111,30 @@ public class ProductRepository {
         return results;
     }
 
+    public Product findBySerial(String serial) {
+        String sql = "SELECT * FROM product WHERE serial_number = ?";
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, serial);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("serial_number"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity"),
+                        rs.getString("category")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка при поиске по серийному номеру: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+
 }

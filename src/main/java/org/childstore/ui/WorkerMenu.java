@@ -23,6 +23,7 @@ public class WorkerMenu {
             System.out.println("3. Оформить заказ");
             System.out.println("4. Поиск товара по названию");
             System.out.println("5. Поиск по категории");
+            System.out.println("6. Поиск по серийному номеру");
             System.out.println("0. Выход");
 
 
@@ -44,6 +45,9 @@ public class WorkerMenu {
                     break;
                 case "5":
                     searchByCategory();
+                    break;
+                case "6":
+                    searchBySerial();
                     break;
                 case "0":
                     running = false;
@@ -144,5 +148,22 @@ public class WorkerMenu {
         System.out.println("\nНажмите Enter для возврата...");
         scanner.nextLine();
     }
+    private void searchBySerial() {
+        System.out.print("🔍 Введите серийный номер: ");
+        String serial = scanner.nextLine();
+
+        Product p = productService.searchBySerial(serial);
+        if (p != null) {
+            System.out.println("Найден товар:");
+            System.out.println("🔹 " + p.getName() + " | 💰 " + p.getPrice() +
+                    " | Кол-во: " + p.getQuantity() +
+                    " | Категория: " + p.getCategory());
+        } else {
+            System.out.println("Товар с таким серийным номером не найден.");
+        }
+
+        pause();
+    }
+
 
 }
