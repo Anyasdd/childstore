@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.File;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,6 +25,7 @@ public class WorkerMenu {
             System.out.println("5. Поиск по категории");
             System.out.println("6. Поиск по серийному номеру");
             System.out.println("7. Показать список заказанных товаров");
+            System.out.println("8. Показать отсутствующие товары");
             System.out.println("0. Выход");
 
 
@@ -51,6 +53,9 @@ public class WorkerMenu {
                     break;
                 case "7":
                     showOrderedProducts();
+                    break;
+                case "8":
+                    showOutOfStock();
                     break;
                 case "0":
                     running = false;
@@ -194,4 +199,23 @@ public class WorkerMenu {
 
         pause();
     }
+
+    private void showOutOfStock() {
+        List<Product> products = productService.getAllProducts();
+        List<Product> outOfStock = products.stream()
+                .filter(p -> p.getQuantity() == 0)
+                .collect(Collectors.toList());
+
+        if (outOfStock.isEmpty()) {
+            System.out.println("Все товары в наличии.");
+        } else {
+            System.out.println("\nОтсутствующие товары:");
+            for (Product p : outOfStock) {
+                System.out.println("❌ " + p.getName() + " | Серийный номер: " + p.getSerialNumber());
+            }
+        }
+
+        pause();
+    }
+
 }
