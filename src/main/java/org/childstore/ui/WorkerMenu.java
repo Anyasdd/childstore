@@ -5,8 +5,7 @@ import org.childstore.service.ProductService;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,6 +23,7 @@ public class WorkerMenu {
             System.out.println("4. Поиск товара по названию");
             System.out.println("5. Поиск по категории");
             System.out.println("6. Поиск по серийному номеру");
+            System.out.println("7. Показать список заказанных товаров");
             System.out.println("0. Выход");
 
 
@@ -48,6 +48,9 @@ public class WorkerMenu {
                     break;
                 case "6":
                     searchBySerial();
+                    break;
+                case "7":
+                    showOrderedProducts();
                     break;
                 case "0":
                     running = false;
@@ -165,5 +168,30 @@ public class WorkerMenu {
         pause();
     }
 
+    private void showOrderedProducts() {
+        File ordersFile = new File("orders.txt");
 
+        System.out.println("\nСписок заказанных товаров:");
+        if (!ordersFile.exists()) {
+            System.out.println("Заказов пока нет.");
+        } else {
+            try (Scanner fileScanner = new Scanner(ordersFile)) {
+                boolean empty = true;
+                while (fileScanner.hasNextLine()) {
+                    String line = fileScanner.nextLine();
+                    if (!line.isBlank()) {
+                        System.out.println("🔸 " + line);
+                        empty = false;
+                    }
+                }
+                if (empty) {
+                    System.out.println("Заказов пока нет.");
+                }
+            } catch (IOException e) {
+                System.out.println("Ошибка при чтении заказов: " + e.getMessage());
+            }
+        }
+
+        pause();
+    }
 }
