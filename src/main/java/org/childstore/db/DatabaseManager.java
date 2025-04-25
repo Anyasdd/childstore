@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseManager {
     private static final String URL = "jdbc:postgresql://localhost:5432/childstore";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "7236haha"; // Замени на свой
+    private static final String PASSWORD = "7236haha"; 
 
     public static Connection connect() {
         try {
