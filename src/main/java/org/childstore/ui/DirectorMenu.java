@@ -55,7 +55,7 @@ public class DirectorMenu {
         } else {
             System.out.println("Все товары:");
             for (Product p : products) {
-                System.out.println("🔹 " + p.getName() + " | Кол-во: " + p.getQuantity() + " | Категория: " + p.getCategory());
+                System.out.println("* " + p.getName() + " | Кол-во: " + p.getQuantity() + " | Категория: " + p.getCategory());
             }
         }
         pause();
@@ -76,7 +76,7 @@ public class DirectorMenu {
 
         System.out.println("\nКоличество товаров по категориям:");
         for (Map.Entry<String, Integer> entry : countMap.entrySet()) {
-            System.out.println("🏷️ " + entry.getKey() + ": " + entry.getValue() + " шт.");
+            System.out.println("* " + entry.getKey() + ": " + entry.getValue() + " шт.");
         }
         pause();
     }
@@ -91,7 +91,7 @@ public class DirectorMenu {
 
         Product max = Collections.max(products, Comparator.comparingInt(Product::getQuantity));
         System.out.println("Товар с максимальным количеством:");
-        System.out.println("🔹 " + max.getName() + " | Кол-во: " + max.getQuantity());
+        System.out.println("* " + max.getName() + " | Кол-во: " + max.getQuantity());
         pause();
     }
 
@@ -105,7 +105,7 @@ public class DirectorMenu {
 
         Product min = Collections.min(products, Comparator.comparingInt(Product::getQuantity));
         System.out.println("Товар с минимальным количеством:");
-        System.out.println("🔹 " + min.getName() + " | Кол-во: " + min.getQuantity());
+        System.out.println("* " + min.getName() + " | Кол-во: " + min.getQuantity());
         pause();
     }
 

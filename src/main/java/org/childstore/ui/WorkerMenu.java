@@ -83,7 +83,7 @@ public class WorkerMenu {
         } else {
             System.out.println("\nСписок товаров:");
             for (Product p : products) {
-                System.out.println("🔹 " + p.getName() + " | 💰 " + p.getPrice() +
+                System.out.println("* " + p.getName() + " | " + p.getPrice() +
                         " | Кол-во: " + p.getQuantity() +
                         " | Категория: " + p.getCategory());
             }
@@ -138,7 +138,7 @@ public class WorkerMenu {
         } else {
             System.out.println("Найдено: ");
             for (Product p : results) {
-                System.out.println("🔹 " + p.getName() + " | " + p.getCategory());
+                System.out.println("* " + p.getName() + " | " + p.getCategory());
             }
         }
         pause();
@@ -154,7 +154,7 @@ public class WorkerMenu {
         } else {
             System.out.println("Найдено: ");
             for (Product p : results) {
-                System.out.println("🔹 " + p.getName() + " | " + p.getCategory());
+                System.out.println("* " + p.getName() + " | " + p.getCategory());
             }
         }
         pause();
@@ -165,13 +165,13 @@ public class WorkerMenu {
         scanner.nextLine();
     }
     private void searchBySerial() {
-        System.out.print("🔍 Введите серийный номер: ");
+        System.out.print("Введите серийный номер: ");
         String serial = scanner.nextLine();
 
         Product p = productService.searchBySerial(serial);
         if (p != null) {
             System.out.println("Найден товар:");
-            System.out.println("🔹 " + p.getName() + " | 💰 " + p.getPrice() +
+            System.out.println("* " + p.getName() + " |  " + p.getPrice() +
                     " | Кол-во: " + p.getQuantity() +
                     " | Категория: " + p.getCategory());
         } else {
@@ -239,7 +239,7 @@ public class WorkerMenu {
         } else {
             System.out.println("\nТовары со скидкой:");
             for (Product p : discounted) {
-                System.out.println("🔻 " + p.getName() + " | 💰 " + p.getPrice() +
+                System.out.println("🔻 " + p.getName() + " |  " + p.getPrice() +
                         " | Категория: " + p.getCategory());
             }
         }
