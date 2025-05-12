@@ -62,6 +62,21 @@ public class ProductService {
         }
     }
 
+    public void sellUpdate(String name, int quantity) {
+        String sql = "UPDATE product SET quantity = quantity - ? WHERE name = ?";
+        try (Connection conn = org.childstore.db.DatabaseManager.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, quantity);
+            stmt.setString(2, name);
+
+            stmt.executeUpdate();
+            System.out.println("Test.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Product searchBySerial(String serial) {
         return repository.findBySerial(serial);
     }

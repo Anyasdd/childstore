@@ -116,6 +116,9 @@ public class WorkerMenu {
     private void placeOrder() {
         System.out.print("Введите название товара для заказа: ");
         String name = scanner.nextLine();
+        int quantity = 1;
+
+        productService.sellUpdate(name, quantity);
 
         try (PrintWriter writer = new PrintWriter(new FileOutputStream("orders.txt", true))) {
             writer.println(name);
